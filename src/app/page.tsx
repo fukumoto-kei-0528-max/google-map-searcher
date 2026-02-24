@@ -1,13 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { LayoutDashboard, PlusCircle } from "lucide-react";
+import { LayoutDashboard, PlusCircle, Settings } from "lucide-react";
 import BudgetTracker from "@/components/BudgetTracker";
 import SettleUp from "@/components/SettleUp";
 import ExpenseForm from "@/components/ExpenseForm";
+import CategorySettings from "@/components/CategorySettings";
 import { USER_ME, USER_PARTNER } from "@/lib/config";
 
-type Tab = "dashboard" | "add";
+type Tab = "dashboard" | "add" | "settings";
 
 export default function HomePage() {
   const [tab, setTab] = useState<Tab>("dashboard");
@@ -32,7 +33,7 @@ export default function HomePage() {
 
       {/* Main content */}
       <main className="flex-1 max-w-lg mx-auto w-full px-4 py-4 pb-24 space-y-4">
-        {tab === "dashboard" ? (
+        {tab === "dashboard" && (
           <>
             <BudgetTracker key={`budget-${refreshKey}`} />
             <SettleUp
@@ -40,9 +41,9 @@ export default function HomePage() {
               onSettled={() => setRefreshKey((k) => k + 1)}
             />
           </>
-        ) : (
-          <ExpenseForm onSuccess={handleSuccess} />
         )}
+        {tab === "add" && <ExpenseForm onSuccess={handleSuccess} />}
+        {tab === "settings" && <CategorySettings />}
       </main>
 
       {/* Bottom navigation */}
@@ -52,13 +53,19 @@ export default function HomePage() {
             active={tab === "dashboard"}
             onClick={() => setTab("dashboard")}
             icon={<LayoutDashboard className="h-5 w-5" />}
-            label="Dashboard"
+            label="ダッシュボード"
           />
           <NavButton
             active={tab === "add"}
             onClick={() => setTab("add")}
             icon={<PlusCircle className="h-5 w-5" />}
-            label="Add Expense"
+            label="支出を追加"
+          />
+          <NavButton
+            active={tab === "settings"}
+            onClick={() => setTab("settings")}
+            icon={<Settings className="h-5 w-5" />}
+            label="設定"
           />
         </div>
       </nav>
