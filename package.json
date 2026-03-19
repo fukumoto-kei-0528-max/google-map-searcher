@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-label": "^2.1.8",
     "@radix-ui/react-progress": "^1.1.8",
@@ -16,6 +17,7 @@
     "@radix-ui/react-slot": "^1.2.4",
     "@supabase/ssr": "^0.8.0",
     "@supabase/supabase-js": "^2.97.0",
+    "@types/recharts": "^1.8.29",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.575.0",
@@ -23,7 +25,9 @@
     "next-pwa": "^5.6.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
-    "tailwind-merge": "^3.5.0"
+    "recharts": "^3.8.0",
+    "tailwind-merge": "^3.5.0",
+    "yahoo-finance2": "^3.13.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

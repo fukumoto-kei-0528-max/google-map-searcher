@@ -1,14 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { LayoutDashboard, PlusCircle, Settings } from "lucide-react";
+import { LayoutDashboard, PlusCircle, Settings, TrendingUp } from "lucide-react";
 import BudgetTracker from "@/components/BudgetTracker";
 import SettleUp from "@/components/SettleUp";
 import ExpenseForm from "@/components/ExpenseForm";
 import CategorySettings from "@/components/CategorySettings";
+import InvestmentDashboard from "@/components/investment/InvestmentDashboard";
 import { USER_ME, USER_PARTNER } from "@/lib/config";
 
-type Tab = "dashboard" | "add" | "settings";
+type Tab = "dashboard" | "add" | "investment" | "settings";
 
 export default function HomePage() {
   const [tab, setTab] = useState<Tab>("dashboard");
@@ -19,14 +20,23 @@ export default function HomePage() {
     setTab("dashboard");
   };
 
+  const headerBg =
+    tab === "investment"
+      ? "bg-gradient-to-r from-indigo-700 to-blue-600"
+      : "bg-blue-600";
+
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col">
       {/* Header */}
-      <header className="bg-blue-600 text-white px-4 pt-12 pb-4 shadow-md">
+      <header className={`${headerBg} text-white px-4 pt-12 pb-4 shadow-md transition-colors`}>
         <div className="max-w-lg mx-auto">
-          <h1 className="text-xl font-bold tracking-tight">Couple Budget</h1>
+          <h1 className="text-xl font-bold tracking-tight">
+            {tab === "investment" ? "投資分析ツール" : "Couple Budget"}
+          </h1>
           <p className="text-blue-100 text-xs mt-0.5">
-            {USER_ME} &amp; {USER_PARTNER}
+            {tab === "investment"
+              ? "AI × 過去数十年データで最適銘柄をピックアップ"
+              : `${USER_ME} & ${USER_PARTNER}`}
           </p>
         </div>
       </header>
@@ -43,6 +53,7 @@ export default function HomePage() {
           </>
         )}
         {tab === "add" && <ExpenseForm onSuccess={handleSuccess} />}
+        {tab === "investment" && <InvestmentDashboard />}
         {tab === "settings" && <CategorySettings />}
       </main>
 
@@ -59,7 +70,14 @@ export default function HomePage() {
             active={tab === "add"}
             onClick={() => setTab("add")}
             icon={<PlusCircle className="h-5 w-5" />}
-            label="支出を追加"
+            label="支出追加"
+          />
+          <NavButton
+            active={tab === "investment"}
+            onClick={() => setTab("investment")}
+            icon={<TrendingUp className="h-5 w-5" />}
+            label="投資分析"
+            highlight
           />
           <NavButton
             active={tab === "settings"}
@@ -78,17 +96,20 @@ function NavButton({
   onClick,
   icon,
   label,
+  highlight,
 }: {
   active: boolean;
   onClick: () => void;
   icon: React.ReactNode;
   label: string;
+  highlight?: boolean;
 }) {
+  const activeColor = highlight ? "text-indigo-600" : "text-blue-600";
   return (
     <button
       onClick={onClick}
       className={`flex-1 flex flex-col items-center gap-1 py-3 text-xs font-medium transition-colors
-        ${active ? "text-blue-600" : "text-gray-400 hover:text-gray-600"}`}
+        ${active ? activeColor : "text-gray-400 hover:text-gray-600"}`}
     >
       {icon}
       <span>{label}</span>
